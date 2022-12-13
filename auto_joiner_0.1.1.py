@@ -279,12 +279,12 @@ def wait_for_meeting_end(_driver):
                 return
             number_of_participants = participants.text
             number_of_participants = int(number_of_participants.split('(')[1].split(')')[0].strip())
-            if number_of_participants <= 1 and count % 4 == 0 and count > 0:
-                print(f"[{str(datetime.now())}]Meeting ended: " + meeting_status['title'])
+            if number_of_participants <= 1 and count >= 4:
                 leave_button.click()
+                print(f"[{str(datetime.now())}]Meeting ended: " + meeting_status['title'])
                 return
             else:
-                print(f"[{str(datetime.now())}]Waiting for meeting to end: " + meeting_status['title'])
+                print(f"[{str(datetime.now())}]Waiting for meeting to end: " + meeting_status['title'] + f" ({number_of_participants} remaining members)")
                 count += 1
                 time.sleep(15)
     except Exception as e:
@@ -314,4 +314,4 @@ if __name__ == '__main__':
 # driver.implicitly_wait(5)
 # driver.find_element_by_id("idSIButton9").click()
 # driver.implicitly_wait(5)
-# driver.find_element_by_id("idSIButton9").click()
+#
