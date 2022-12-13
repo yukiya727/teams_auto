@@ -51,7 +51,8 @@ def configure_driver():
     if 'mute_audio' in config_file and config_file['mute_audio']:
         chrome_options.add_argument("--mute-audio")
     # chrome_options.use_chromium = True
-    _driver = webdriver.Edge(EdgeChromiumDriverManager().install())
+    _driver = Edge(EdgeChromiumDriverManager().install(), options=chrome_options)
+    # _driver = webdriver.Edge(EdgeChromiumDriverManager().install())
     return _driver
 
 
@@ -283,6 +284,7 @@ def wait_for_meeting_end(_driver):
                 leave_button.click()
                 return
             else:
+                print(f"[{str(datetime.now())}]Waiting for meeting to end: " + meeting_status['title'])
                 count += 1
                 time.sleep(15)
     except Exception as e:
