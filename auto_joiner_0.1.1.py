@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
+from msedge.selenium_tools import Edge, EdgeOptions
 from json_reader import *
 
 meeting_status = {
@@ -23,7 +24,8 @@ def load_config():
 
 
 def configure_driver():
-    chrome_options = webdriver.ChromeOptions()
+    chrome_options = EdgeOptions()
+    chrome_options.use_chromium = True
     chrome_options.add_argument('--ignore-certificate-errors')
     chrome_options.add_argument('--ignore-ssl-errors')
     chrome_options.add_argument('--use-fake-ui-for-media-stream')
