@@ -117,8 +117,6 @@ def get_meetings_list():
     if meeting_list_temp:
         # meetings = meeting_list_temp.find_elements_by_css_selector("div[class*='renderer__eventCard']")
         meetings = meeting_list_temp.find_elements(By.CSS_SELECTOR, "div[class*='event-card-renderer__eventCard']")
-        print(meetings)
-        print(type(meetings))
         for _ in meetings:
             meeting = {
                 'title': _.get_attribute('title'),
