@@ -246,7 +246,9 @@ def join_meeting(_driver, _meeting, _delay=0):
 
         timer = datetime.now() - timer
         if _delay > timer.total_seconds():
-            time.sleep(_delay - timer.total_seconds())
+            total_delay = _delay - timer.total_seconds()
+            print("[{0}]Waiting for meeting to start.({1}s)".format(datetime.now(), total_delay))
+            time.sleep(total_delay)
 
         prejoin_button.click()
         meeting_status['title'] = _meeting['title']
