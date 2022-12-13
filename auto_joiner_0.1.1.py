@@ -250,6 +250,8 @@ def join_meeting(_driver, _meeting, _delay=0):
             print("[{0}]Waiting for meeting to start.({1}s)".format(datetime.now(), total_delay))
             time.sleep(total_delay)
 
+        print("[{0}]Joining meeting now...".format(datetime.now()))
+
         prejoin_button.click()
         meeting_status['title'] = _meeting['title']
         wait_for_meeting_end(_driver)
@@ -263,12 +265,8 @@ def wait_for_meeting_end(_driver):
     time.sleep(10)
     try:
         people_button = wait_for_element(_driver, "button[aria-label='People']", 10, 'css')
-        leave_button = wait_for_element(_driver, "button[data-tid='hangup-main-btn']", 10, 'css')
         if not people_button:
             print("[Error]People button not found")
-            return
-        if not leave_button:
-            print("[Error]Leave button not found")
             return
         people_button.click()
         time.sleep(2)
@@ -282,6 +280,10 @@ def wait_for_meeting_end(_driver):
             number_of_participants = participants.text
             number_of_participants = int(number_of_participants.split('(')[1].split(')')[0].strip())
             if number_of_participants <= 1 and count >= 4:
+                leave_button = wait_for_element(_driver, "button[id='hangup-button']", 10, 'css')
+                if not leave_button:
+                    print("[Error]Leave button not found")
+                    return
                 leave_button.click()
                 print(f"[{str(datetime.now())}]Meeting ended: " + meeting_status['title'])
                 return
@@ -313,7 +315,4 @@ if __name__ == '__main__':
 # driver.implicitly_wait(5)
 # driver.find_element_by_id("i0118").send_keys("password")
 # driver.find_element_by_id("idSIButton9").click()
-# driver.implicitly_wait(5)
-# driver.find_element_by_id("idSIButton9").click()
-# driver.implicitly_wait(5)
-#
+# driver.implici
