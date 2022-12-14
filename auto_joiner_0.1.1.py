@@ -84,6 +84,9 @@ def wait_for_element(_driver, _element_id, _timeout, _mode='id'):
 
 
 def change_view():
+    enter_web_app = wait_for_element(driver, 'a[class="use-app-lnk"]', 10, 'css')
+    if enter_web_app:
+        enter_web_app.click()
     calendar_button = wait_for_element(driver, 'button[aria-label="Calendar Toolbar"]', 120, 'css')
     if not calendar_button:
         print("Calendar button not found")
@@ -280,7 +283,9 @@ def wait_for_meeting_end(_driver):
             number_of_participants = participants.text
             number_of_participants = int(number_of_participants.split('(')[1].split(')')[0].strip())
             if number_of_participants <= 1 and count >= 4:
-                leave_button = wait_for_element(_driver, "button[id='hangup-button']", 10, 'css')
+                leave_button = wait_for_element(_driver, "button[data-tid='hangup-main-btn']", 10, 'css')
+                if not leave_button:
+                    leave_button = wait_for_element(_driver, "button[id='hangup-button']", 10, 'css')
                 if not leave_button:
                     print("[Error]Leave button not found")
                     return
