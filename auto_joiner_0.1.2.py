@@ -181,7 +181,8 @@ def wait_for_meeting(_driver):
             format_meeting_details()
             meeting_list = get_list_from_json()
             if meeting_list:
-                print("[{}]Searching for meetings.".format(datetime.now()))
+                print(Fore.YELLOW + Style.DIM + "[{}]".format(
+            datetime.now()) + Fore.WHITE + Style.NORMAL + "Searching for meetings.".format(datetime.now()))
                 for meeting in meeting_list:
                     result = check_if_join(meeting)
                     joinNow, delay = result[0], result[1]
@@ -326,6 +327,4 @@ if __name__ == '__main__':
 # driver.find_element_by_id("i0116").send_keys("email")
 # driver.find_element_by_id("idSIButton9").click()
 # driver.implicitly_wait(5)
-# driver.find_element_by_id("i0118").send_keys("password")
-# driver.find_element_by_id("idSIButton9").click()
-# driver.implici
+# driver.find_element_by_id("i0118
