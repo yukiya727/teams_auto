@@ -9,12 +9,14 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from msedge.selenium_tools import Edge, EdgeOptions
+from colorama import init, Fore, Back, Style
 from json_reader import *
 
 meeting_status = {
-    'title': '',
+    'title': [],
     'joined': False,
 }
+init(autoreset=True)
 
 
 def load_config():
@@ -79,7 +81,7 @@ def wait_for_element(_driver, _element_id, _timeout, _mode='id'):
                 EC.visibility_of_element_located((By.CSS_SELECTOR, _element_id)))
             return element
     except TimeoutException:
-        print("Timed out waiting for element")
+        print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "Timed out waiting for element")
         return None
 
 
@@ -89,7 +91,7 @@ def change_view():
         enter_web_app.click()
     calendar_button = wait_for_element(driver, 'button[aria-label="Calendar Toolbar"]', 120, 'css')
     if not calendar_button:
-        print("Calendar button not found")
+        print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "Calendar button not found")
         return False
     time.sleep(10)
     calendar_button.click()
@@ -98,7 +100,7 @@ def change_view():
                                    ".ms-CommandBar-secondaryCommand > div > button[class*='__topBarContent']", 30,
                                    'css')
     if not view_button:
-        print("View button not found")
+        print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "View button not found")
         return False
     time.sleep(3)
     view_button.click()
@@ -107,7 +109,7 @@ def change_view():
                                   "li[role='presentation'].ms-ContextualMenu-item>button[aria-posinset='1']",
                                   30, 'css')
     if not day_button:
-        print("Day button not found")
+        print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "Day button not found")
         return False
     time.sleep(2)
     day_button.click()
@@ -140,7 +142,7 @@ def save_cookies(_driver):
         with open('cookies.pkl', 'wb') as file:
             pickle.dump(cookies, file)
     except Exception as e:
-        print(e)
+        print(Fore.YELLOW + Back.BLUE + "[Code Error]" + Fore.YELLOW + Back.BLACK + e)
 
 
 def load_cookies(_driver):
@@ -151,7 +153,7 @@ def load_cookies(_driver):
             for cookie in cookies:
                 driver.add_cookie(cookie)
     except Exception as e:
-        print(e)
+        print(Fore.YELLOW + Back.BLUE + "[Code Error]" + Fore.YELLOW + Back.BLACK + e)
 
 
 def check_if_join(meeting):
@@ -186,21 +188,21 @@ def wait_for_meeting(_driver):
                     if joinNow:
                         join_meeting(_driver, meeting, delay)
             else:
-                print("[Error]meeting_list is empty")
+                print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "meeting_list is empty")
         except Exception as e:
-            print(e)
+            print(Fore.YELLOW + Back.BLUE + "[Code Error]" + Fore.YELLOW + Back.BLACK + e)
         time.sleep(30)
 
 
 def join_meeting(_driver, _meeting, _delay=0):
     global meeting_status
-    if _meeting['title'] == meeting_status['title']:
+    if _meeting['title'] in meeting_status['title']:
         return
 
     meeting_box = wait_for_element(_driver, _meeting['id'], 30)
     timer = datetime.now()
     if not meeting_box:
-        print("[Error]Meeting box not found")
+        print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "Meeting box not found")
         return
     meeting_box.click()
     time.sleep(2)
@@ -210,19 +212,19 @@ def join_meeting(_driver, _meeting, _delay=0):
     if not RSVP_button:
         edit_button = wait_for_element(_driver, "button[data-tid='calv2-peek-edit-button']", 30, 'css')
         if not edit_button:
-            print("[Error]RSVP and edit button not found")
+            print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "RSVP and edit button not found")
             return
         else:
             RSVP_status = 'Started'
     else:
         RSVP_status = RSVP_button.text
     if RSVP_status == 'Accepted' or 'Started':
-        print("[{}]Meeting found: ".format(datetime.now()) + _meeting['title'])
+        print(Fore.GREEN + "[{}]Meeting found: ".format(datetime.now()) + _meeting['title'])
         join_button = wait_for_element(_driver,
                                        "button[data-tid='calv2-peek-join-button']",
                                        30, 'css')
         if not join_button:
-            print("[Error]Join button not found")
+            print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "Join button not found")
             return
         join_button.click()
         time.sleep(4)
@@ -236,11 +238,11 @@ def join_meeting(_driver, _meeting, _delay=0):
                                           "button[data-tid='prejoin-join-button']",
                                           10, 'css')
         if not mute_button:
-            print("[Error]Mute button not found")
+            print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "Mute button not found")
             _driver.switch_to.default_content()
             return
         if not prejoin_button:
-            print("[Error]Prejoin button not found")
+            print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "Prejoin button not found")
             _driver.switch_to.default_content()
             return
         if mute_button.get_attribute('data-cid') == 'toggle-mute-true':
@@ -250,13 +252,15 @@ def join_meeting(_driver, _meeting, _delay=0):
         timer = datetime.now() - timer
         if _delay > timer.total_seconds():
             total_delay = _delay - timer.total_seconds()
-            print("[{0}]Waiting for meeting to start.({1}s)".format(datetime.now(), total_delay))
+            print(Fore.YELLOW + Style.DIM + "[{0}]".format(
+                datetime.now()) + Fore.WHITE + Style.NORMAL + "Waiting for meeting to start.({}s)".format(total_delay))
             time.sleep(total_delay)
 
-        print("[{0}]Joining meeting now...".format(datetime.now()))
+        print(Fore.YELLOW + Style.DIM + "[{0}]".format(
+            datetime.now()) + Fore.WHITE + Style.NORMAL + "Joining meeting now...")
 
         prejoin_button.click()
-        meeting_status['title'] = _meeting['title']
+        meeting_status['title'].append(_meeting['title'])
         wait_for_meeting_end(_driver)
         _driver.switch_to.default_content()
     else:
@@ -269,7 +273,7 @@ def wait_for_meeting_end(_driver):
     try:
         people_button = wait_for_element(_driver, "button[aria-label='People']", 10, 'css')
         if not people_button:
-            print("[Error]People button not found")
+            print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "People button not found")
             return
         people_button.click()
         time.sleep(2)
@@ -278,7 +282,7 @@ def wait_for_meeting_end(_driver):
         while True:
             participants = wait_for_element(_driver, "span[id*='roster-title-section-2'] > span", 5, 'css')
             if not participants and count >= 2:
-                print("[Error]Participants list not found")
+                print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "Participants list not found")
                 return
             number_of_participants = participants.text
             number_of_participants = int(number_of_participants.split('(')[1].split(')')[0].strip())
@@ -287,17 +291,21 @@ def wait_for_meeting_end(_driver):
                 if not leave_button:
                     leave_button = wait_for_element(_driver, "button[id='hangup-button']", 10, 'css')
                 if not leave_button:
-                    print("[Error]Leave button not found")
+                    print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "Leave button not found")
                     return
                 leave_button.click()
-                print(f"[{str(datetime.now())}]Meeting ended: " + meeting_status['title'])
+                print(
+                    Fore.YELLOW + Style.DIM + f"[{str(datetime.now())}]" + Fore.YELLOW + Style.NORMAL + "Meeting ended: " +
+                    meeting_status['title'][-1])
                 return
             else:
-                print(f"[{str(datetime.now())}]Waiting for meeting to end: " + meeting_status['title'] + f" ({number_of_participants} remaining members)")
+                print(
+                    Fore.YELLOW + Style.DIM + f"[{str(datetime.now())}]" + Fore.WHITE + Style.NORMAL + "Waiting for meeting to end: " +
+                    meeting_status['title'][-1] + f" ({number_of_participants} remaining members)")
                 count += 1
                 time.sleep(15)
     except Exception as e:
-        print(e)
+        print(Fore.YELLOW + Back.BLUE + "[Code Error]" + Fore.YELLOW + Back.BLACK + e)
 
 
 def check_if_meeting_is_terminated(_driver):
