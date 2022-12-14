@@ -142,7 +142,7 @@ def save_cookies(_driver):
         with open('cookies.pkl', 'wb') as file:
             pickle.dump(cookies, file)
     except Exception as e:
-        print(Fore.YELLOW + Back.BLUE + "[Code Error]" + Fore.YELLOW + Back.BLACK + e)
+        print(e)
 
 
 def load_cookies(_driver):
@@ -153,7 +153,7 @@ def load_cookies(_driver):
             for cookie in cookies:
                 driver.add_cookie(cookie)
     except Exception as e:
-        print(Fore.YELLOW + Back.BLUE + "[Code Error]" + Fore.YELLOW + Back.BLACK + e)
+        print(e)
 
 
 def check_if_join(meeting):
@@ -190,7 +190,7 @@ def wait_for_meeting(_driver):
             else:
                 print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "meeting_list is empty")
         except Exception as e:
-            print(Fore.YELLOW + Back.BLUE + "[Code Error]" + Fore.YELLOW + Back.BLACK + e)
+            print(e)
         time.sleep(30)
 
 
@@ -305,7 +305,7 @@ def wait_for_meeting_end(_driver):
                 count += 1
                 time.sleep(15)
     except Exception as e:
-        print(Fore.YELLOW + Back.BLUE + "[Code Error]" + Fore.YELLOW + Back.BLACK + e)
+        print(e)
 
 
 def check_if_meeting_is_terminated(_driver):
