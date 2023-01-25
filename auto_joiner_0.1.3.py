@@ -107,7 +107,7 @@ def change_view():
     view_button.click()
     ###############################
     day_button = wait_for_element(driver,
-                                  "li[role='presentation'].ms-ContextualMenu-item>button[aria-posinset='1']",
+                                  "li[aria-label='Day view'] > div",
                                   30, 'css')
     if not day_button:
         print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "Day button not found")
