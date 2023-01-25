@@ -190,6 +190,7 @@ def wait_for_meeting(_driver):
             get_meetings_list()
             format_meeting_details()
             meeting_list = get_list_from_json()
+            print(meeting_list)
             if meeting_list:
                 print(Fore.YELLOW + Style.DIM + "[{}]".format(
                     datetime.now()) + Fore.WHITE + Style.NORMAL + "Searching for meetings.".format(datetime.now()))
