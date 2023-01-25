@@ -96,9 +96,7 @@ def change_view():
     time.sleep(10)
     calendar_button.click()
     ###############################
-    view_button = wait_for_element(driver,
-                                   ".ms-CommandBar-secondaryCommand > div > button[class*='__topBarContent']", 30,
-                                   'css')
+    view_button = wait_for_element(driver,"dropdown-trigger-button-6", 30,'id')
     if not view_button:
         print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "View button not found")
         return False
@@ -157,6 +155,7 @@ def load_cookies(_driver):
 
 
 def check_if_join(meeting):
+    # print('Time start:' + str(meeting['time_start']))
     overdue = datetime.now() > meeting['time_start']
     ended = datetime.now() > meeting['time_end']
     if not ended:
@@ -182,10 +181,13 @@ def wait_for_meeting(_driver):
             meeting_list = get_list_from_json()
             if meeting_list:
                 print(Fore.YELLOW + Style.DIM + "[{}]".format(
-            datetime.now()) + Fore.WHITE + Style.NORMAL + "Searching for meetings.".format(datetime.now()))
+                    datetime.now()) + Fore.WHITE + Style.NORMAL + "Searching for meetings.".format(datetime.now()))
                 for meeting in meeting_list:
                     result = check_if_join(meeting)
                     joinNow, delay = result[0], result[1]
+                    print(meeting['title'])
+                    print(f'[{datetime.now()}]Join result: ' + str(joinNow))
+
                     if joinNow:
                         join_meeting(_driver, meeting, delay)
             else:

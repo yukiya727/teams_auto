@@ -79,7 +79,9 @@ def format_meeting_details():
             #     delay_offset =  time_start - datetime.now()
             #     # datetime to seconds
             #     delay_offset = int(delay_offset.total_seconds())
-            meeting_length = time_end - time_start
+
+            # meeting_length = time_end - time_start
+
             # print(_['id'])
             # print("Title: " + title)
             # print("Time Start: " + str(time_start))
@@ -107,4 +109,4 @@ def get_list_from_json():
     return meetings
 
 # if __name__ == '__main__':
-#     format_meeting_details()
+#     format_meeting_details
