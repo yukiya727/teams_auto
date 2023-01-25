@@ -137,6 +137,7 @@ def get_meetings_list():
                 'id': _.get_attribute('id'),
                 'full title': _.get_attribute('aria-label')
             }
+            print(meeting['title'])
             meeting_list.append(meeting)
         # write meeting_list to file
         with open('meetings.json', 'w') as outfile:
