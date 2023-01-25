@@ -96,7 +96,7 @@ def change_view():
     time.sleep(10)
     calendar_button.click()
     ###############################
-    view_button = wait_for_element(driver,"dropdown-trigger-button-6", 30,'id')
+    view_button = wait_for_element(driver,'div[title="Switch your calendar view"] > div', 30,'id')
     if not view_button:
         print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "View button not found")
         return False
