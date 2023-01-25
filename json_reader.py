@@ -40,10 +40,11 @@ def format_meeting_details():
             if len(time_end) == 3:
                 time_end = ' '.join(time_end[1:])
             else:
-                time_end = ' '.join(time_end[4:])
+                time_end = ' '.join(time_end[-2:])
+
             day_of_week = _['title'].split('from')[1].split('to')[0].split(',')[0].strip()
-            day_of_month_start = _['title'].split('from')[1].split('to')[0].split(',')[1].split(" ")[1].strip() + " " + \
-                                 _['title'].split('from')[1].split('to')[0].split(',')[1].split(" ")[2].strip()
+            day_of_month_start = _['title'].split('from')[1].split('to')[0].split(',')[0].split(" ")[1].strip() + " " + \
+                                 _['title'].split('from')[1].split('to')[0].split(',')[0].split(" ")[2].strip()
 
             if "AM" in time_start:
                 time_start = time_start.replace("AM", "")
@@ -108,5 +109,5 @@ def get_list_from_json():
         # _['attended'] = False
     return meetings
 
-# if __name__ == '__main__':
-#     format_meeting_details
+if __name__ == '__main__':
+    format_meeting_details()
