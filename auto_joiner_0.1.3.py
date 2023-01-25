@@ -99,7 +99,7 @@ def change_view():
     iframe = driver.find_element(By.CSS_SELECTOR, "iframe[id*='experience-container']")
     driver.switch_to.frame(iframe)
 
-    view_button = wait_for_element(driver,'div[title="Switch your calendar view"] > div', 30,'id')
+    view_button = wait_for_element(driver,'div[title="Switch your calendar view"] > div', 30,'css')
     if not view_button:
         print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "View button not found")
         return False
