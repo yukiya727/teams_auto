@@ -137,7 +137,6 @@ def get_meetings_list():
                 'id': _.get_attribute('id'),
                 'full title': _.get_attribute('aria-label')
             }
-            print(meeting['title'])
             meeting_list.append(meeting)
         # write meeting_list to file
         with open('meetings.json', 'w') as outfile:
@@ -188,9 +187,11 @@ def wait_for_meeting(_driver):
         try:
             # meeting_list = get_meetings_list()
             get_meetings_list()
+            print('Meeting list: found')
             format_meeting_details()
+            print('Meeting list: formatted')
             meeting_list = get_list_from_json()
-            print(meeting_list)
+            print('Meeting list: retrieved')
             if meeting_list:
                 print(Fore.YELLOW + Style.DIM + "[{}]".format(
                     datetime.now()) + Fore.WHITE + Style.NORMAL + "Searching for meetings.".format(datetime.now()))
