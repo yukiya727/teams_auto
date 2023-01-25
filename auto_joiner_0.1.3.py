@@ -99,7 +99,7 @@ def change_view():
     iframe = driver.find_element(By.CSS_SELECTOR, "iframe[id*='experience-container']")
     driver.switch_to.frame(iframe)
 
-    view_button = wait_for_element(driver,'div[title="Switch your calendar view"] > div', 30,'css')
+    view_button = wait_for_element(driver, 'div[title="Switch your calendar view"] > div', 30, 'css')
     if not view_button:
         print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "View button not found")
         return False
@@ -119,11 +119,18 @@ def change_view():
 
 def get_meetings_list():
     meeting_list = []
+    # 0.1.2
+    # meeting_list_temp = wait_for_element(driver,
+    #                                      "div[class*='calendar-multi-day-renderer__cardHolder']", 30, 'css')
     meeting_list_temp = wait_for_element(driver,
-                                         "div[class*='calendar-multi-day-renderer__cardHolder']", 30, 'css')
+                                         '//*[@id="app"]/div/div/div/div/div[5]/div/div/div[2]/div[2]/div/div[2]/div/div[2]',
+                                         30, 'xpath')
     if meeting_list_temp:
         # meetings = meeting_list_temp.find_elements_by_css_selector("div[class*='renderer__eventCard']")
-        meetings = meeting_list_temp.find_elements(By.CSS_SELECTOR, "div[class*='event-card-renderer__eventCard']")
+
+        # 0.1.2
+        # meetings = meeting_list_temp.find_elements(By.CSS_SELECTOR, "div[class*='event-card-renderer__eventCard']")
+        meetings = meeting_list_temp.find_elements(By.CSS_SELECTOR, "div[class*='fui-Primitive'] > div")
         for _ in meetings:
             meeting = {
                 'title': _.get_attribute('title'),
@@ -213,21 +220,17 @@ def join_meeting(_driver, _meeting, _delay=0):
     meeting_box.click()
     time.sleep(2)
     RSVP_button = wait_for_element(_driver,
-                                   "button[data-tid='calv2-peek-rsvp-button'] > span[class*='ms-Button-flexContainer'] > span[class*='ms-Button-textContainer'] > span[class*='ms-Button-label']",
+                                   'button[id*="menubutton-trigger"] > span[class*="ui-button__content"]',
                                    30, 'css')
     if not RSVP_button:
-        edit_button = wait_for_element(_driver, "button[data-tid='calv2-peek-edit-button']", 30, 'css')
-        if not edit_button:
-            print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "RSVP and edit button not found")
-            return
-        else:
-            RSVP_status = 'Started'
+        print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "RSVP or edit button not found")
+        return
     else:
         RSVP_status = RSVP_button.text
     if RSVP_status == 'Accepted' or 'Started':
         print(Fore.GREEN + "[{}]Meeting found: ".format(datetime.now()) + _meeting['title'])
         join_button = wait_for_element(_driver,
-                                       "button[data-tid='calv2-peek-join-button']",
+                                       'button[data-track-module-name="calendarEventPeekViewMeetingJoinButton"]',
                                        30, 'css')
         if not join_button:
             print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "Join button not found")
