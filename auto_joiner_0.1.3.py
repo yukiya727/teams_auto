@@ -227,6 +227,7 @@ def join_meeting(_driver, _meeting, _delay=0):
                                    30, 'css')
     if not RSVP_button:
         print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "RSVP or edit button not found")
+        meeting_status['title'].append(_meeting['title'])
         return
     else:
         RSVP_status = RSVP_button.text
@@ -276,6 +277,7 @@ def join_meeting(_driver, _meeting, _delay=0):
         wait_for_meeting_end(_driver)
         _driver.switch_to.default_content()
     else:
+        meeting_status['title'].append(_meeting['title'])
         return
 
 
