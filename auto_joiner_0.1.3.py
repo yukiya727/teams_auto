@@ -196,10 +196,11 @@ def wait_for_meeting(_driver):
                 print(Fore.YELLOW + Style.DIM + "[{}]".format(
                     datetime.now()) + Fore.WHITE + Style.NORMAL + "Searching for meetings.".format(datetime.now()))
                 for meeting in meeting_list:
+                    if meeting['title'] in meeting_status['title']:
+                        continue
                     result = check_if_join(meeting)
                     joinNow, delay = result[0], result[1]
-                    print(meeting['title'])
-                    print(f'[{datetime.now()}]Join result: ' + str(joinNow))
+                    print(f'[Debug]{meeting["title"]} Join result: ' + str(joinNow))
 
                     if joinNow:
                         join_meeting(_driver, meeting, delay)
@@ -231,7 +232,7 @@ def join_meeting(_driver, _meeting, _delay=0):
         return
     else:
         RSVP_status = RSVP_button.text
-    if RSVP_status == 'Accepted' or 'Started':
+    if RSVP_status is not 'Tentative' or 'Declined' or 'RSVP':
         print(Fore.GREEN + "[{}]Meeting found: ".format(datetime.now()) + _meeting['title'])
         join_button = wait_for_element(_driver,
                                        'button[data-track-module-name="calendarEventPeekViewMeetingJoinButton"]',
@@ -256,6 +257,7 @@ def join_meeting(_driver, _meeting, _delay=0):
             return
         if not prejoin_button:
             print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "Prejoin button not found")
+            meeting_status['title'].append(_meeting['title'])
             _driver.switch_to.default_content()
             return
         if mute_button.get_attribute('data-cid') == 'toggle-mute-true':
