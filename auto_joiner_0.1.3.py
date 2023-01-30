@@ -243,7 +243,7 @@ def join_meeting(_driver, _meeting, _delay=0):
         join_button.click()
         time.sleep(4)
 
-        iframe = wait_for_element(_driver, "/html/body/div[5]/div/iframe", 30 ,'xpath')
+        iframe = wait_for_element(_driver, "iframe[id*='experience-container']", 30 ,'css')
         _driver.switch_to.frame(iframe)
 
         mute_button = wait_for_element(_driver,
