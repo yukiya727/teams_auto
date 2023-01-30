@@ -81,7 +81,7 @@ def wait_for_element(_driver, _element_id, _timeout, _mode='id'):
                 EC.visibility_of_element_located((By.CSS_SELECTOR, _element_id)))
             return element
     except TimeoutException:
-        print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "Timed out waiting for element")
+        print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + f"Timed out waiting for element ({_element_id})")
         return None
 
 
@@ -187,11 +187,11 @@ def wait_for_meeting(_driver):
         try:
             # meeting_list = get_meetings_list()
             get_meetings_list()
-            print('Meeting list: found')
+            # print('Meeting list: found')
             format_meeting_details()
-            print('Meeting list: formatted')
+            # print('Meeting list: formatted')
             meeting_list = get_list_from_json()
-            print('Meeting list: retrieved')
+            # print('Meeting list: retrieved')
             if meeting_list:
                 print(Fore.YELLOW + Style.DIM + "[{}]".format(
                     datetime.now()) + Fore.WHITE + Style.NORMAL + "Searching for meetings.".format(datetime.now()))
@@ -232,7 +232,7 @@ def join_meeting(_driver, _meeting, _delay=0):
         return
     else:
         RSVP_status = RSVP_button.text
-    if RSVP_status is not 'Tentative' or 'Declined' or 'RSVP':
+    if RSVP_status != 'Tentative' or 'Declined' or 'RSVP':
         print(Fore.GREEN + "[{}]Meeting found: ".format(datetime.now()) + _meeting['title'])
         join_button = wait_for_element(_driver,
                                        'button[data-track-module-name="calendarEventPeekViewMeetingJoinButton"]',
@@ -245,6 +245,7 @@ def join_meeting(_driver, _meeting, _delay=0):
 
         iframe = wait_for_element(_driver, "/html/body/div[5]/div/iframe", 30 ,'xpath')
         _driver.switch_to.frame(iframe)
+
         mute_button = wait_for_element(_driver,
                                        "div[data-tid='toggle-mute']",
                                        10, 'css')
