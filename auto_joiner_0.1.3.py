@@ -81,7 +81,8 @@ def wait_for_element(_driver, _element_id, _timeout, _mode='id'):
                 EC.visibility_of_element_located((By.CSS_SELECTOR, _element_id)))
             return element
     except TimeoutException:
-        print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + f"Timed out waiting for element ({_element_id})")
+        print(
+            Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + f"Timed out waiting for element ({_element_id})")
         return None
 
 
@@ -223,9 +224,27 @@ def join_meeting(_driver, _meeting, _delay=0):
         return
     meeting_box.click()
     time.sleep(2)
-    RSVP_button = wait_for_element(_driver,
-                                   'button[id*="menubutton-trigger"] > span[class*="ui-button__content"]',
+    # RSVP_button = wait_for_element(_driver,
+    #                                'button[id*="menubutton-trigger"] > span[class*="ui-button__content"]',
+    #                                30, 'css')
+    # if not RSVP_button:
+    #     print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "RSVP or edit button not found")
+    #     meeting_status['title'].append(_meeting['title'])
+    #     return
+    # else:
+    #     RSVP_status = RSVP_button.text
+    # if RSVP_status != 'Tentative' or 'Declined' or 'RSVP':
+    #     print(Fore.GREEN + "[{}]Meeting found: ".format(datetime.now()) + _meeting['title'])
+    join_button = wait_for_element(_driver,
+                                   'button[data-track-module-name="calendarEventPeekViewMeetingJoinButton"]',
                                    30, 'css')
+    if not join_button:
+        print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "Join button not found")
+        return
+    join_button.click()
+    time.sleep(4)
+
+    RSVP_button = join_button.find_element_by_xpath("./following-sibling::*")
     if not RSVP_button:
         print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "RSVP or edit button not found")
         meeting_status['title'].append(_meeting['title'])
@@ -233,17 +252,7 @@ def join_meeting(_driver, _meeting, _delay=0):
     else:
         RSVP_status = RSVP_button.text
     if RSVP_status != 'Tentative' or 'Declined' or 'RSVP':
-        print(Fore.GREEN + "[{}]Meeting found: ".format(datetime.now()) + _meeting['title'])
-        join_button = wait_for_element(_driver,
-                                       'button[data-track-module-name="calendarEventPeekViewMeetingJoinButton"]',
-                                       30, 'css')
-        if not join_button:
-            print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "Join button not found")
-            return
-        join_button.click()
-        time.sleep(4)
-
-        iframe = wait_for_element(_driver, "iframe[id*='experience-container']", 30 ,'css')
+        iframe = wait_for_element(_driver, "iframe[id*='experience-container']", 30, 'css')
         _driver.switch_to.frame(iframe)
 
         mute_button = wait_for_element(_driver,
