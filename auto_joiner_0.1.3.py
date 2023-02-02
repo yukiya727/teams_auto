@@ -241,8 +241,6 @@ def join_meeting(_driver, _meeting, _delay=0):
     if not join_button:
         print(Fore.YELLOW + Back.BLUE + "[Error]" + Fore.YELLOW + Back.BLACK + "Join button not found")
         return
-    join_button.click()
-    time.sleep(4)
 
     RSVP_button = join_button.find_element_by_xpath("./following-sibling::*")
     if not RSVP_button:
@@ -291,9 +289,11 @@ def join_meeting(_driver, _meeting, _delay=0):
         wait_for_meeting_end(_driver)
         _driver.switch_to.default_content()
     else:
-        print(print("RSVP is not Accepted: " + RSVP_status))
+        print(print("RSVP is not 'Accepted', RSVP status: " + RSVP_status))
         meeting_status['title'].append(_meeting['title'])
         return
+    join_button.click()
+    time.sleep(4)
 
 
 def wait_for_meeting_end(_driver):
