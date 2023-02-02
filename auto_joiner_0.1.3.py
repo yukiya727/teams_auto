@@ -253,9 +253,9 @@ def join_meeting(_driver, _meeting, _delay=0):
     print("RSVP status: " + RSVP_status)
     if RSVP_status != 'Tentative' or RSVP_status != 'Declined' or RSVP_status != 'RSVP':
         join_button.click()
-        time.sleep(4)
+        time.sleep(10)
 
-        wait = WebDriverWait(driver, 20)
+        # wait = WebDriverWait(driver, 20)
         # iframe = wait.until(EC.presence_of_element_located((By.XPATH, '//iframe[contains(@id, "experience-container")]')))
         # # iframe = _driver.execute_script("return document.querySelector('iframe[id*=experience-container]')")
         # _driver.switch_to.frame(iframe)
