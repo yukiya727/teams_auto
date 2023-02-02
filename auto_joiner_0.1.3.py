@@ -259,7 +259,7 @@ def join_meeting(_driver, _meeting, _delay=0):
         # iframe = wait.until(EC.presence_of_element_located((By.XPATH, '//iframe[contains(@id, "experience-container")]')))
         # # iframe = _driver.execute_script("return document.querySelector('iframe[id*=experience-container]')")
         # _driver.switch_to.frame(iframe)
-        _driver.switch_to.default_content()
+        _driver.switch_to.frame(1)
         # print(iframe)
 
         mute_button = wait_for_element(_driver,
