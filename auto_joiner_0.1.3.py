@@ -254,7 +254,7 @@ def join_meeting(_driver, _meeting, _delay=0):
     if RSVP_status != 'Tentative' or RSVP_status != 'Declined' or RSVP_status != 'RSVP':
         join_button.click()
         time.sleep(4)
-        iframe = wait_for_element(_driver, "/html/body/div[5]/div/iframe", 30, 'xpath')
+        iframe = wait_for_element(_driver, '//iframe[contains(@id, "experience-container")]', 30, 'xpath')
         _driver.switch_to.frame(iframe)
 
         mute_button = wait_for_element(_driver,
