@@ -257,6 +257,7 @@ def join_meeting(_driver, _meeting, _delay=0):
         # iframe = wait_for_element(_driver, '//iframe[contains(@id, "experience-container")]', 30, 'xpath')
         iframe = _driver.execute_script("return document.querySelector('iframe[id*=experience-container]')")
         _driver.switch_to.frame(iframe)
+        print(iframe)
 
         mute_button = wait_for_element(_driver,
                                        "div[data-tid='toggle-mute']",
