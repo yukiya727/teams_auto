@@ -251,7 +251,7 @@ def join_meeting(_driver, _meeting, _delay=0):
         return
     else:
         RSVP_status = RSVP_button.text
-    if RSVP_status != 'Tentative' or 'Declined' or 'RSVP':
+    if RSVP_status != 'Tentative' or RSVP_status != 'Declined' or RSVP_status != 'RSVP':
         iframe = wait_for_element(_driver, "iframe[id*='experience-container']", 30, 'css')
         _driver.switch_to.frame(iframe)
 
