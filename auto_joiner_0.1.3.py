@@ -255,9 +255,12 @@ def join_meeting(_driver, _meeting, _delay=0):
         join_button.click()
         time.sleep(10)
 
-        wait = WebDriverWait(driver, 20)
-        iframe = wait.until(EC.presence_of_element_located((By.XPATH, '//iframe[contains(@id, "experience-container")]')))
+        # wait = WebDriverWait(driver, 20)
+        # iframe = wait.until(EC.presence_of_element_located((By.XPATH, '//iframe[contains(@id, "experience-container")]')))
         # # iframe = _driver.execute_script("return document.querySelector('iframe[id*=experience-container]')")
+
+        iframe = _driver.execute_script("return document.getElementsByTagName('iframe')[0];")
+        print(iframe)
         _driver.switch_to.frame(iframe)
         # _driver.switch_to.frame(0)
         # print(iframe)
