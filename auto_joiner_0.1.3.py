@@ -262,16 +262,20 @@ def join_meeting(_driver, _meeting, _delay=0):
         # iframe = _driver.execute_script("return document.getElementsByTagName('iframe')[0];")
         # print(iframe)
         # _driver.switch_to.frame(iframe)
-        iframe = driver.find_element_by_xpath('/html/body/div[5]/div/iframe')
-        _driver.switch_to.frame(iframe)
+        iframe = _driver.find_element_by_xpath('/html/body/div[5]/div')
+        # _driver.switch_to.frame(iframe)
+        print(iframe
+        )
 
         # Check if there is another iframe within this iframe
-        try:
-            nested_iframe = driver.find_element_by_xpath('//iframe')
-            _driver.switch_to.frame(nested_iframe)
-        except Exception as e:
-            print(e)
-            pass
+        # try:
+        #     nested_iframe = _driver.find_element_by_xpath('//iframe')
+        #     _driver.switch_to.frame(nested_iframe)
+        # except Exception as e:
+        #     print(e)
+        #     pass
+
+
         # _driver.switch_to.frame(0)
         # print(iframe)
 
