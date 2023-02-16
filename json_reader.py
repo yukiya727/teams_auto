@@ -19,11 +19,12 @@ months_dict = {
 
 def str_to_datetime(day_of_month_str, time_str):
     time_str += ":00"
-    time_str = time_str.replace(" ", "")
+    time_str = time_str.strip()
     month_str = day_of_month_str.split(' ')[0]
     date_str = str(datetime.now().year) + " " + day_of_month_str.replace(month_str, str(months_dict[month_str]))
     date_str = date_str.replace(' ', '-')
     datetime_str = date_str + " " + time_str
+    print(datetime_str)
     return datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
 
 
