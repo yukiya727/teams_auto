@@ -35,8 +35,10 @@ def format_meeting_details():
             print(_['title'])
             # print(_['full title'])
             title = _['title'].split('from')[0].strip()
-            print("formatted title: " + title)
             time_start = ' '.join(_['title'].split('from')[1].split('to')[0].split(' ')[4:])
+            print(time_start)
+            time_start = time_start.replace("/u202f", "")
+            print(time_start)
             time_end = _['title'].split('to')[1].split(' ')
             if len(time_end) == 3:
                 time_end = ' '.join(time_end[1:])
