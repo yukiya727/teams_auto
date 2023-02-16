@@ -34,7 +34,7 @@ def format_meeting_details():
         for _ in meetings:
             # print(_['title'])
             # print(_['full title'])
-            title = _['title'].split('from')[0].strip()
+            title = _['title'].split('from')[0].strip().replace("  ", " ").replace("/u202f", " ")
             time_start = ' '.join(_['title'].split('from')[1].split('to')[0].split(' ')[4:])
             time_end = _['title'].split('to')[1].split(' ')
             if len(time_end) == 3:
