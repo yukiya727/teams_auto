@@ -49,10 +49,10 @@ def format_meeting_details():
 
             if "AM" in time_start:
                 time_start = time_start.replace("AM", "")
-                time_start.strip().replace("/u202f", "")
+                time_start.strip()
             if "PM" in time_start:
                 time_start = time_start.replace("PM", "")
-                time_start.strip().replace("/u202f", "")
+                time_start.strip()
                 hour = int(time_start.split(":")[0])
                 if hour != 12:
                     hour += 12
@@ -61,16 +61,18 @@ def format_meeting_details():
                 time_start = str(hour) + ":" + time_start.split(":")[1]
             if "AM" in time_end:
                 time_end = time_end.replace("AM", "")
-                time_end.strip().replace("/u202f", "")
+                time_end.strip()
             if "PM" in time_end:
                 time_end = time_end.replace("PM", "")
-                time_end.strip().replace("/u202f", "")
+                time_end.strip()
                 hour = int(time_end.split(":")[0])
                 if hour != 12:
                     hour += 12
                 else:
                     hour = 0
                 time_end = str(hour) + ":" + time_end.split(":")[1]
+            print(time_end)
+            print(time_start)
 
             time_start = str_to_datetime(day_of_month_start, time_start)
             time_end = str_to_datetime(day_of_month_start, time_end)
