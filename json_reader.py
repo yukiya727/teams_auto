@@ -37,8 +37,6 @@ def format_meeting_details():
             title = _['title'].split('from')[0].strip()
             time_start = ' '.join(_['title'].split('from')[1].split('to')[0].split(' ')[4:])
             print(time_start)
-            time_start = time_start.replace("/u202f", "")
-            print(time_start)
             time_end = _['title'].split('to')[1].split(' ')
             if len(time_end) == 3:
                 time_end = ' '.join(time_end[1:])
@@ -51,10 +49,10 @@ def format_meeting_details():
 
             if "AM" in time_start:
                 time_start = time_start.replace("AM", "")
-                time_start.strip()
+                time_start.strip().replace("/u202f", "")
             if "PM" in time_start:
                 time_start = time_start.replace("PM", "")
-                time_start.strip()
+                time_start.strip().replace("/u202f", "")
                 hour = int(time_start.split(":")[0])
                 if hour != 12:
                     hour += 12
@@ -63,10 +61,10 @@ def format_meeting_details():
                 time_start = str(hour) + ":" + time_start.split(":")[1]
             if "AM" in time_end:
                 time_end = time_end.replace("AM", "")
-                time_end.strip()
+                time_end.strip().replace("/u202f", "")
             if "PM" in time_end:
                 time_end = time_end.replace("PM", "")
-                time_end.strip()
+                time_end.strip().replace("/u202f", "")
                 hour = int(time_end.split(":")[0])
                 if hour != 12:
                     hour += 12
