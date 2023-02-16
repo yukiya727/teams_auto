@@ -184,14 +184,13 @@ def check_if_join(meeting):
 
 
 def wait_for_meeting(_driver):
+    get_meetings_list()
+    format_meeting_details()
+    meeting_list = get_list_from_json()
     while True:
         try:
-            # meeting_list = get_meetings_list()
-            get_meetings_list()
             # print('Meeting list: found')
-            format_meeting_details()
             # print('Meeting list: formatted')
-            meeting_list = get_list_from_json()
             # print('Meeting list: retrieved')
             if meeting_list:
                 print(Fore.YELLOW + Style.DIM + "[{}]".format(
@@ -276,7 +275,6 @@ def join_meeting(_driver, _meeting, _delay=0):
         #     print(e)
         #     pass
 
-
         # _driver.switch_to.frame(0)
         # print(iframe)
 
@@ -312,7 +310,7 @@ def join_meeting(_driver, _meeting, _delay=0):
         prejoin_button.click()
         meeting_status['title'].append(_meeting['title'])
         wait_for_meeting_end(_driver)
-        _driver.switch_to.default_content()
+        # close_rating_button = wait_for_element(_driver, "", 10, 'css')
     else:
         print(print("RSVP is not 'Accepted', RSVP status: " + RSVP_status))
         meeting_status['title'].append(_meeting['title'])
