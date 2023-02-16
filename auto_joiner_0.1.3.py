@@ -264,9 +264,9 @@ def join_meeting(_driver, _meeting, _delay=0):
         # _driver.switch_to.frame(iframe)
 
         # wtf??? why is this working
-        iframe = _driver.find_element_by_xpath('/html/body/div[5]/div')
+        # iframe = _driver.find_element_by_xpath('/html/body/div[5]/div')
         # _driver.switch_to.frame(iframe)
-        print(iframe)
+        # print(iframe)
 
         # Check if there is another iframe within this iframe
         # try:
