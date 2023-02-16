@@ -20,12 +20,10 @@ months_dict = {
 def str_to_datetime(day_of_month_str, time_str):
     time_str += ":00"
     time_str = time_str.replace(' ', '').replace(" ", "")
-    print(time_str)
     month_str = day_of_month_str.split(' ')[0]
     date_str = str(datetime.now().year) + " " + day_of_month_str.replace(month_str, str(months_dict[month_str]))
     date_str = date_str.replace(' ', '-')
     datetime_str = date_str + " " + time_str
-    print(datetime_str)
     return datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
 
 
@@ -34,11 +32,10 @@ def format_meeting_details():
     with open('meetings.json', 'r') as f:
         meetings = json.load(f)
         for _ in meetings:
-            print(_['title'])
+            # print(_['title'])
             # print(_['full title'])
             title = _['title'].split('from')[0].strip()
             time_start = ' '.join(_['title'].split('from')[1].split('to')[0].split(' ')[4:])
-            print(time_start)
             time_end = _['title'].split('to')[1].split(' ')
             if len(time_end) == 3:
                 time_end = ' '.join(time_end[1:])
@@ -73,8 +70,6 @@ def format_meeting_details():
                 else:
                     hour = 0
                 time_end = str(hour) + ":" + time_end.split(":")[1]
-            print(time_end)
-            print(time_start)
 
             time_start = str_to_datetime(day_of_month_start, time_start)
             time_end = str_to_datetime(day_of_month_start, time_end)
