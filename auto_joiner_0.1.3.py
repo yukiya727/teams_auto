@@ -312,8 +312,6 @@ def join_meeting(_driver, _meeting, _delay=0):
         prejoin_button.click()
         meeting_status['title'].append(_meeting['title'])
         wait_for_meeting_end(_driver)
-        iframe = _driver.find_element_by_xpath('/html/body/div[5]/div')
-        print(iframe)
         _driver.switch_to.default_content()
     else:
         print(print("RSVP is not 'Accepted', RSVP status: " + RSVP_status))
